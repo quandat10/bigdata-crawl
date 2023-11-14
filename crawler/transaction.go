@@ -49,7 +49,8 @@ type Transaction struct {
 func (tc *TransactionCrawler) Crawl(env *bootstrap.Env) {
 	collection := tc.Database.Collection(tc.Collection)
 	var wallets []Wallet
-	data, _ := ioutil.ReadFile("data/wallets.json")
+	fileWallet := fmt.Sprintf("data/%s_wallets.json", env.DBName)
+	data, _ := ioutil.ReadFile(fileWallet)
 
 	err := json.Unmarshal(data, &wallets)
 
@@ -74,8 +75,8 @@ func (tc *TransactionCrawler) Crawl(env *bootstrap.Env) {
 
 	cursor.All(context.Background(), &transactions)
 
-	fmt.Println(len(transactions))
 	// Write file
 	transactionsJson, _ := json.Marshal(transactions)
-	err = ioutil.WriteFile("data/transactions.json", transactionsJson, 0644)
+	file := fmt.Sprintf("data/%s_transactions.json", env.DBName)
+	err = ioutil.WriteFile(file, transactionsJson, 0644)
 }

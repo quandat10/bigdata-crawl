@@ -3,6 +3,7 @@ package crawler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/quandat10/bigdata-crawl/bootstrap"
 	"github.com/quandat10/bigdata-crawl/mongo"
 	"go.mongodb.org/mongo-driver/bson"
@@ -54,5 +55,6 @@ func (bc *BlockCrawler) Crawl(env *bootstrap.Env) {
 
 	// Write file
 	blocksJson, _ := json.Marshal(blocks)
-	err = ioutil.WriteFile("data/blocks.json", blocksJson, 0644)
+	file := fmt.Sprintf("data/%s_blocks.json", env.DBName)
+	err = ioutil.WriteFile(file, blocksJson, 0644)
 }

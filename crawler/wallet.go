@@ -3,6 +3,7 @@ package crawler
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/quandat10/bigdata-crawl/bootstrap"
 	"github.com/quandat10/bigdata-crawl/mongo"
 	"go.mongodb.org/mongo-driver/bson"
@@ -42,5 +43,6 @@ func (wc *WalletCrawler) Crawl(env *bootstrap.Env) {
 
 	// Write file
 	walletsJson, _ := json.Marshal(wallets)
-	err = ioutil.WriteFile("data/wallets.json", walletsJson, 0644)
+	file := fmt.Sprintf("data/%s_wallets.json", env.DBName)
+	err = ioutil.WriteFile(file, walletsJson, 0644)
 }
